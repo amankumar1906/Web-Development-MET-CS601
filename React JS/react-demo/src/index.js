@@ -53,7 +53,7 @@ function Header() {
   return (
     <header>
       <nav>
-        <h2> Hello </h2>
+        <h2> Hello hi</h2>
       </nav>
     </header>
   );
