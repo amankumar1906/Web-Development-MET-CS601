@@ -11,6 +11,9 @@
       crossorigin="anonymous"
     />
     <script>
+      function display_input() {
+        document.getElementById("input").style.display = "block";
+      }
       function temp_convertor() {
         const pre_radio = document.getElementsByName("temperature");
         const post_radio = document.getElementsByName("temp_conv");
@@ -167,7 +170,7 @@
     <h1>Temperature Converter</h1>
 
     <div class="container">
-      <label for="user_input"> <h5>Convert temperature with ease!</h5></label>
+      <h5><label for="user_input"> Convert temperature with ease!</label></h5>
       <br />
 
       <br />
@@ -176,49 +179,63 @@
         <div class="pre_convert">
           <input
             type="radio"
-            id="celsius"
+            id="pre_celsius"
             name="temperature"
             value="celsius"
-            required
+            onclick="display_input()"
           />
 
-          <label for="celsius">Celsius</label><br />
+          <label for="pre_celsius">Celsius</label><br />
           <input
             type="radio"
-            id="fahrenheit"
+            id="pre_fahrenheit"
             name="temperature"
             value="fahrenheit"
+            onclick="display_input()"
           />
-          <label for="fahrenheit">Fahrenheit</label><br />
-          <input type="radio" id="kelvin" name="temperature" value="kelvin" />
-          <label for="kelvin">Kelvin</label><br /><br />
+          <label for="pre_fahrenheit">Fahrenheit</label><br />
+          <input
+            type="radio"
+            id="pre_kelvin"
+            name="temperature"
+            value="kelvin"
+            onclick="display_input()"
+          />
+          <label for="pre_kelvin">Kelvin</label><br /><br />
         </div>
 
-        <input
-          type="number"
-          id="user_input"
-          placeholder="Enter value"
-          required
-        />
+        <div id="input" style="display: none">
+          <input
+            type="number"
+            id="user_input"
+            placeholder="Enter value"
+            required
+          />
+        </div>
 
         <div class="post_convert">
           <input
             type="radio"
-            id="celsius"
+            id="post_celsius"
             name="temp_conv"
             value="celsius"
             required
           />
-          <label for="celsius">Celsius</label><br />
+          <label for="post_celsius">Celsius</label><br />
           <input
             type="radio"
-            id="fahrenheit"
+            id="post_fahrenheit"
             name="temp_conv"
             value="fahrenheit"
           />
-          <label for="fahrenheit">Fahrenheit</label><br />
-          <input type="radio" id="kelvin" name="temp_conv" value="kelvin" />
-          <label for="kelvin">Kelvin</label><br /><br />
+          <label for="post_fahrenheit">Fahrenheit</label><br />
+          <input
+            type="radio"
+            id="post_kelvin"
+            name="temp_conv"
+            value="kelvin"
+          />
+          <label for="post_kelvin">Kelvin</label><br /><br />
         </div>
       </div>
 
