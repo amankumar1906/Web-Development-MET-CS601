@@ -1,262 +1,242 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="utf-8" />
-    <title>Resume- Assignment-1</title>
+    <title>My Resume</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
 
     <style>
-      * {
-        max-width: 750px;
-        margin: auto;
-      }
-
-      #title {
-        text-align: center;
-      }
-
       .container {
-        display: inline-block;
-        border-style: solid;
-        margin-top: 30px;
-        margin-left: 55px;
-        width: 75%;
-        height: 725px;
-        padding: 40px;
-        background-color: beige;
+        font-size:12px;
+        width:50%;
       }
 
-      .headers {
-        font-weight: bold;
+      h3, h5 {
+        font-size:14px;
       }
 
-      li {
-        font-size: 12px;
+      .row{
+        margin:0;
       }
 
-      .head {
-        font-size: 20px;
-        font-weight: bold;
-      }
-
-      hr {
-        border: 2px solid black;
-      }
-
-      br {
-        display: block;
-        content: "";
-        margin-top: 10px;
-      }
-      .points {
-        font-weight: normal;
-      }
     </style>
   </head>
   <body>
-    <div class="container">
-      <div id="title">
+    <div class="container border border-secondary bg-light bg-yellow ">
+      <div id="title" class="text-center mt-5">
         <h2>Aman Kumar</h2>
         <h6>
           1185 Boylston Street, Boston, MA | akumar190620@gmail.com |
           857-376-1709
         </h6>
       </div>
-      <br />
-      <p class="head">Education</p>
       <hr />
-      <br />
-      <ol>
-        <li class="headers">
-          Boston University, Boston, MA, USA &emsp; &emsp; &emsp;
-          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; Expected
-          December, 2023
-        </li>
+      <div class="row">
+        <div class="col">
+          <h3>Education</h3>
+          <hr />
+          <ol>
+            <li>
 
-        <li class="headers">
-          Vellore Institute of Technology, Vellore, India &emsp; &emsp; &emsp;
-          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Graduated: 2018-2022
-        </li>
-      </ol>
+              <div class="row">
+                <div class="col-sm-8">
+              <h5>Boston University, Boston, MA, USA</h5> </div>
+              <div class="col-sm-4">
+              <p>Expected December, 2023</p> </div> </div>
+            </li>
+            <li>
+              <div class="row">
+                <div class="col-sm-8">
+              <h5>Vellore Institute of Technology, Vellore, India</h5> </div>
+              <div class='col-sm-4'><p>Graduated: 2018-2022</p> </div>
+            </li>
+          </ol>
+          <hr />
+        </div>
+      </div>  
 
-      <br />
-      <p class="head">Professional Experience</p>
+     
+
+      <div class="row">
+        <div class="col">
+          <h3>Professional Experience</h3>
+          <hr />
+          <ol>
+            <li>
+              <h5>PHEMESOFT Pvt Ltd, Mumbai, India</h5>
+              <p class="font-weight-bold">January-March, 2022</p>
+              <ul>
+                <li>
+                  <p>
+                    Developed a website using HTML, CSS, JavaScript, Node.js and
+                    MySQL
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    Integrated live conferencing into website via webrtc with
+                    mobile responsive capability
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    Assessed the frontend and response time to increase user
+                    satisfaction by 23%, in collaboration with the product
+                    manager and UI designer head
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    Coordinated with the IT department and added password
+                    authentication and protection
+                  </p>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <h5>PAYBACK, Mumbai, India</h5>
+              <p class="font-weight-bold">June-August, 2021</p>
+              <ul>
+                <li>
+                  <p>
+                    Performed CRUD operations via fetch API to display data on
+                    website
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    Augmented role-based access to sensitive data in company’s
+                    website
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    Engaged actively in code reviews enabling constructive
+                    feedback, producing more efficient code to interact with
+                    REST APIs and extract data to frontend
+                  </p>
+                </li>
+              </ul>
+            </li>
+          </ol>
+        </div>
+      </div>
       <hr />
-      <br />
-      <ol>
-        <li class="headers">
-          PHEMESOFT Pvt Ltd, Mumbai, India &emsp; &emsp; &emsp;
-          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; January-March,
-          2022
+      <div class="row">
+        <div class="col">
+          <h3>Technical Skills</h3>
+          <hr />
           <ul>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Developed a website using HTML, CSS, JavaScript, Node.js and
-                MySQL
-              </p>
+            <li>Programming Languages: Java, C/C++, Python and R</li>
+            <li>
+              Front-end Development: HTML, CSS, Bootstraap, React, JQuery and
+              JavaScript
             </li>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Integrated live conferencing into website via webrtc with mobile
-                responsive capability
-              </p>
-            </li>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Assessed the frontend and response time to increase user
-                satisfaction by 23%, in collaboration with the product manager
-                and UI designer head
-              </p>
-            </li>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Coordinated with the IT department and added password
-                authentication and protection
-              </p>
+            <li>
+              Backend Development: PL/SQL, MongoDB, PHP, Firebase and NodeJS
             </li>
           </ul>
-        </li>
+        </div>
+      </div>
 
-        <li class="headers">
-          PAYBACK, Mumbai, India &emsp; &emsp; &emsp;
-          &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-          June-August, 2021
-
-          <ul>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Performed CRUD operations via fetch API to display data on
-                website
-              </p>
-            </li>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Augmented role-based access to sensitive data in company’s
-                website
-              </p>
-            </li>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Engaged actively in code reviews enabling constructive feedback,
-                producing more efficient code to interact with REST APIs and
-                extract data to frontend
-              </p>
-            </li>
-          </ul>
-        </li>
-      </ol>
-      <br />
-      <br />
-      <p class="head">Technical Skills</p>
-      <hr />
-      <br />
-      <ul>
-        <li style="list-style-type: circle">
-          Programming Languages: Java, C/C++, Python and R
-        </li>
-        <li style="list-style-type: circle">
-          Front-end Development: HTML, CSS, Bootstrap, React, JQuery and
-          JavaScript
-        </li>
-        <li style="list-style-type: circle">
-          Backend Development: PL/SQL, MongoDB, PHP, Firebase and NodeJS
-        </li>
-      </ul>
-      <br />
-      <br />
-      <p class="head">Projects</p>
-      <hr />
-      <br />
-      <ol>
-        <li class="headers">
-          Job Hunter
-
-          <ul>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Implemented a reactive website to allow user to apply for jobs
-                in a short span of time. Average time taken by a user to apply
-                to a company came to an average of just 24 seconds
-              </p>
-            </li>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Leveraged Bcrypt library along with hash for password
-                authentication and privacy
-              </p>
-            </li>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Incorporated a scheduling calendar where candidates and
-                interviewers can choose the best suitable time for interview
-              </p>
-            </li>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Technologies used: HTML, CSS, EJS, JavaScript, Bootstrap,
-                Express.js and MongoDB Atlas
-              </p>
-            </li>
-          </ul>
-        </li>
-
-        <li class="headers">
-          E-Learning Website
-
-          <ul>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Developed a responsive website with variety of courses and a
-                secure payment gateway to provide an optimal learning experience
-                for users
-              </p>
-            </li>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Summated easy-to-search courses and a teacher and administrator
-                panel to schedule classes along with real-time conferencing
-                between teachers and students using Websockets
-              </p>
-            </li>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Improved employee management by integrating a daily attendance
-                and work hours tracker
-              </p>
-            </li>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Technologies used: HTML5, CSS, React, Node.js, MySQL, WebSocket
-              </p>
-            </li>
-          </ul>
-        </li>
-
-        <li class="headers">
-          Medicine Tracker
-
-          <ul>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Developed an app which tracks expiry date and notifies user to
-                take medicines on scheduled time, also allowing caretakers to
-                modify medications and alarms as required
-              </p>
-            </li>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Added patient and caretaker profile and schedule to ensure
-                patients receive best care, resulting in 94% user satisfaction
-              </p>
-            </li>
-            <li style="list-style-type: circle">
-              <p class="points">
-                Technologies used: Kotlin, Google FireStore, Google Firebase
-              </p>
-            </li>
-          </ul>
-        </li>
-      </ol>
-      <br />
+        
+      
+        <div class="row">
+          <div class="col-sm-12">
+            <h3>Projects</h3>
+        <hr />
+            <h5 class="headers">Job Hunter</h5>
+            <ul>
+              <li>
+                <p class="points">
+                  Implemented a reactive website to allow user to apply for jobs
+                  in a short span of time. Average time taken by a user to apply
+                  to a company came to an average of just 24 seconds
+                </p>
+              </li>
+              <li>
+                <p class="points">
+                  Leveraged Bcrypt library along with hash for password
+                  authentication and privacy
+                </p>
+              </li>
+              <li>
+                <p class="points">
+                  Incorporated a scheduling calendar where candidates and
+                  interviewers can choose the best suitable time for interview
+                </p>
+              </li>
+              <li>
+                <p class="points">
+                  Technologies used: HTML, CSS, EJS, JavaScript, Bootstrap,
+                  Express.js and MongoDB Atlas
+                </p>
+              </li>
+            </ul>
+          </div>
+      
+          <div class="col-sm-12">
+            <h5 class="headers">E-Learning Website</h5>
+            <ul>
+              <li>
+                <p class="points">
+                  Developed a responsive website with variety of courses and a
+                  secure payment gateway to provide an optimal learning experience
+                  for users
+                </p>
+              </li>
+              <li>
+                <p class="points">
+                  Summated easy-to-search courses and a teacher and administrator
+                  panel to schedule classes along with real-time conferencing
+                  between teachers and students using Websockets
+                </p>
+              </li>
+              <li>
+                <p class="points">
+                  Improved employee management by integrating a daily attendance
+                  and work hours tracker
+                </p>
+              </li>
+              <li>
+                <p class="points">
+                  Technologies used: HTML5, CSS, React, Node.js, MySQL, WebSocket
+                </p>
+              </li>
+            </ul>
+          </div>
+      
+          <div class="col-sm-12">
+            <h5 class="headers">Medicine Tracker</h5>
+            <ul>
+              <li>
+                <p class="points">
+                  Developed an app which tracks expiry date and notifies user to
+                  take medicines on scheduled time, also allowing caretakers to
+                  modify medications and alarms as required
+                </p>
+              </li>
+              <li>
+                <p class="points">
+                  Added patient and caretaker profile and schedule to ensure
+                  patients receive best care, resulting in 94% user satisfaction
+                </p>
+              </li>
+              <li >
+                <p class="points">
+                  Technologies used: Kotlin, Google FireStore, Google Firebase
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      
+      </div>
+      
     </div>
   </body>
 </html>

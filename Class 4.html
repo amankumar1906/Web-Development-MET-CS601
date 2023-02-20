@@ -1,24 +1,95 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
-    />
-
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Assignment-4</title>
     <style>
-      .container {
-        width: 30%;
+      p[title="Rush2112"]::first-line {
+        font-weight: bold;
+        color: darkblue;
+      }
+
+      ::placeholder {
+        color: blue;
+        font-family: sans-serif;
+        font-weight: 800;
+      }
+
+      .box::before {
+        content: "My name is ";
+      }
+
+      .box::after {
+        content: "Aman Kumar";
+      }
+
+      #new_bullet {
+        font-size: 12px;
+      }
+
+      li#bullet::marker {
+        content: "::";
+        color: red;
+        font-weight: bold;
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+
+      li {
+        position: relative;
+        padding-left: 20px;
+      }
+
+      li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: red;
+      }
+
+      li::after {
+        content: "";
+        position: absolute;
+        left: 5px;
+        top: 55%;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background-color: yellow;
+      }
+
+      .drake::first-letter {
+        color: green;
+      }
+
+      .drake h3::first-letter {
+        color: blue;
+        font-size: 2em;
+      }
+      .drake p::first-letter {
+        color: red;
+        font-size: 4em;
+      }
+
+      ::selection {
+        color: red;
       }
     </style>
   </head>
   <body>
-    <div class="Container">
-      <p>This is some content on the page.</p>
-      <p>This is some more content on the page.</p>
-      <p>And even more content.</p>
-
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+    <div class="container">
+      <h2>Paragraph 1</h2>
+      <p title="Rush2112">
+        Lorem ipsum dolori sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Purus viverra
         accumsan in nisl. Arcu ac tortor dignissim convallis aenean et tortor at
         risus. Sapien pellentesque habitant morbi tristique senectus et netus
@@ -36,7 +107,7 @@
         ultricies mi eget mauris.
       </p>
 
-      <h2><a name="paragraph2">Paragraph 2 </a></h2>
+      <h2>Paragraph 2</h2>
       <p>
         Pretium quam vulputate dignissim suspendisse in est ante in nibh. Proin
         sed libero enim sed faucibus turpis. Urna nunc id cursus metus. Cras
@@ -56,7 +127,7 @@
       </p>
 
       <h2>Paragraph 3</h2>
-      <p>
+      <p title="Rush2112">
         Sed vulputate odio ut enim blandit volutpat maecenas volutpat. Iaculis
         eu non diam phasellus vestibulum lorem. Vel elit scelerisque mauris
         pellentesque pulvinar pellentesque habitant morbi tristique. Dignissim
@@ -74,37 +145,35 @@
         elementum.
       </p>
 
-      <h2>Paragraph 4</h2>
-      <p>
-        Odio ut enim blandit volutpat. Lectus proin nibh nisl condimentum id
-        venenatis a condimentum vitae. Suspendisse sed nisi lacus sed. Augue
-        mauris augue neque gravida. Pharetra massa massa ultricies mi quis
-        hendrerit dolor. Tellus in hac habitasse platea dictumst vestibulum
-        rhoncus est. Mauris pellentesque pulvinar pellentesque habitant.
-        Consectetur libero id faucibus nisl tincidunt eget nullam. Morbi non
-        arcu risus quis varius quam quisque id diam. Aliquet bibendum enim
-        facilisis gravida neque convallis a.
-      </p>
+      <input type="text" placeholder="Enter your BU ID" />
 
-      <h2>Paragraph 5</h2>
-      <p>
-        Vitae nunc sed velit dignissim sodales ut eu sem integer. Urna id
-        volutpat lacus laoreet non curabitur. Dolor morbi non arcu risus quis
-        varius. A pellentesque sit amet porttitor. In eu mi bibendum neque
-        egestas congue quisque egestas diam. Facilisi morbi tempus iaculis urna
-        id volutpat. Nec dui nunc mattis enim ut tellus elementum sagittis.
-        Condimentum vitae sapien pellentesque habitant morbi tristique senectus.
-        Faucibus in ornare quam viverra orci sagittis eu. Est lorem ipsum dolor
-        sit amet consectetur adipiscing elit. Commodo ullamcorper a lacus
-        vestibulum sed arcu non. Adipiscing enim eu turpis egestas. Nulla
-        facilisi morbi tempus iaculis urna id volutpat lacus laoreet. Tincidunt
-        arcu non sodales neque sodales ut etiam sit amet. Dui ut ornare lectus
-        sit amet est. Tellus molestie nunc non blandit massa. Urna duis
-        convallis convallis tellus. Lectus nulla at volutpat diam. At erat
-        pellentesque adipiscing commodo elit.
+      <div class="box">Mr.</div>
 
-        <a href="#" onclick="scroll(0,0)"> hi </a>
-      </p>
+      <ul>
+        <li>Object 1</li>
+        <li>Object 2</li>
+        <li>Object 3</li>
+      </ul>
+
+      <div class="drake">
+        <h3>Welcome to MET CS 601</h3>
+      </div>
+      <div class="drake">
+        <p>This class is taught by Prof. Andrew Sheehan</p>
+      </div>
+      <div class="drake">
+        <a href="#">This link goes nowhere</a>
+      </div>
+
+      <button id="dialog">Open Dialog</button>
+
+      <p>Using the selection pseudo element</p>
+
+      <ul id="new_bullet">
+        <li id="bullet">Using Marker-Item 1</li>
+        <li id="bullet">Item 2</li>
+        <li id="bullet">Item 3</li>
+      </ul>
     </div>
   </body>
 </html>
