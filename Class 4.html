@@ -29,7 +29,7 @@
         font-size: 12px;
       }
 
-      li#bullet::marker {
+      li.bullet::marker {
         content: "::";
         color: red;
         font-weight: bold;
@@ -165,14 +165,12 @@
         <a href="#">This link goes nowhere</a>
       </div>
 
-      <button id="dialog">Open Dialog</button>
-
       <p>Using the selection pseudo element</p>
 
       <ul id="new_bullet">
-        <li id="bullet">Using Marker-Item 1</li>
-        <li id="bullet">Item 2</li>
-        <li id="bullet">Item 3</li>
+        <li class="bullet">Using Marker-Item 1</li>
+        <li class="bullet">Item 2</li>
+        <li class="bullet">Item 3</li>
       </ul>
     </div>
   </body>

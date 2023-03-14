@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Things in Life | MET CS401/601</title>
+    <style>
+      div#MERCURY,
+      div#VENUS,
+      div#EARTH,
+      div#MARS,
+      div#JUPITER,
+      div#SATURN,
+      div#URANUS,
+      div#NEPTUNE,
+      div#PLUTO,
+      div#SUN {
+        width: 1300px;
+        height: 150px;
+        padding: 10px;
+        margin: 10px;
+        border: 1px solid black;
+      }
+
+      img {
+        height: 70px;
+        width: 70px;
+      }
+    </style>
+
+    <script>
+      let PlanetArray = new Array();
+      const compareArray = [
+        "Sun",
+        "Mercury",
+        "Venus",
+        "Earth",
+        "Mars",
+        "Jupiter",
+        "Saturn",
+        "Uranus",
+        "Neptune",
+        "Pluto",
+      ];
+
+      function allowDrop(ev) {
+        ev.preventDefault();
+      }
+
+      function drag(ev) {
+        ev.dataTransfer.setData("text/plain", ev.target.id);
+      }
+
+      function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text/plain");
+        if (data.toUpperCase() === ev.target.id) {
+          ev.target.appendChild(document.getElementById(data));
+
+          switch (data) {
+            case "sun":
+              PlanetArray[0] = "Sun";
+              break;
+            case "mercury":
+              PlanetArray[1] = "Mercury";
+              break;
+            case "venus":
+              PlanetArray[2] = "Venus";
+              break;
+            case "earth":
+              PlanetArray[3] = "Earth";
+              break;
+            case "mars":
+              PlanetArray[4] = "Mars";
+              break;
+            case "jupiter":
+              PlanetArray[5] = "Jupiter";
+              break;
+            case "saturn":
+              PlanetArray[6] = "Saturn";
+              break;
+            case "uranus":
+              PlanetArray[7] = "Uranus";
+              break;
+            case "neptune":
+              PlanetArray[8] = "Neptune";
+              break;
+            case "pluto":
+              PlanetArray[9] = "Pluto";
+              break;
+            default:
+              "Incorrect placement";
+          }
+
+          if (JSON.stringify(PlanetArray) === JSON.stringify(compareArray)) {
+            let planets = new Set(PlanetArray);
+            alert(
+              "Congrats! You have successfully ordered the planets correctly."
+            );
+          }
+        } else {
+          alert("Incorrect position of " + data);
+        }
+      }
+    </script>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col">
+          <div class="display-6">Planets</div>
+        </div>
+        <div class="row">
+          <div class="col" ondragstart="drag(event)">
+            <img id="sun" alt="sun" draggable="true" src="./images/sun.png" />
+          </div>
+          <div class="col" ondragstart="drag(event)">
+            <img
+              id="uranus"
+              alt="uranus"
+              draggable="true"
+              src="./images/uranus.png"
+            />
+          </div>
+          <div class="col" ondragstart="drag(event)">
+            <img
+              id="jupiter"
+              alt="jupiter"
+              draggable="true"
+              src="./images/jupiter.png"
+            />
+          </div>
+          <div class="col" ondragstart="drag(event)">
+            <img
+              id="pluto"
+              alt="pluto"
+              draggable="true"
+              src="./images/pluto.png"
+            />
+          </div>
+          <div class="col" ondragstart="drag(event)">
+            <img
+              id="mars"
+              alt="mars"
+              draggable="true"
+              src="./images/mars.jpg"
+            />
+          </div>
+          <div class="col" ondragstart="drag(event)">
+            <img
+              id="neptune"
+              alt="neptune"
+              draggable="true"
+              src="./images/neptune.png"
+            />
+          </div>
+          <div class="col" ondragstart="drag(event)">
+            <img
+              id="saturn"
+              alt="saturn"
+              draggable="true"
+              src="./images/saturn.png"
+            />
+          </div>
+          <div class="col" ondragstart="drag(event)">
+            <img
+              id="earth"
+              alt="earth"
+              draggable="true"
+              src="./images/earth.jpg"
+            />
+          </div>
+          <div class="col" ondragstart="drag(event)">
+            <img
+              id="venus"
+              alt="venus"
+              draggable="true"
+              src="./images/venus.png"
+            />
+          </div>
+          <div class="col" ondragstart="drag(event)">
+            <img
+              id="mercury"
+              alt="mercury"
+              draggable="true"
+              src="./images/mercury.png"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div
+            class="col"
+            id="SUN"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)"
+          ></div>
+          <div
+            class="col"
+            id="MERCURY"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)"
+          ></div>
+          <div
+            class="col"
+            id="VENUS"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)"
+          ></div>
+          <div
+            class="col"
+            id="EARTH"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)"
+          ></div>
+          <div
+            class="col"
+            id="MARS"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)"
+          ></div>
+          <div
+            class="col"
+            id="JUPITER"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)"
+          ></div>
+          <div
+            class="col"
+            id="SATURN"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)"
+          ></div>
+          <div
+            class="col"
+            id="URANUS"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)"
+          ></div>
+          <div
+            class="col"
+            id="NEPTUNE"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)"
+          ></div>
+          <div
+            class="col"
+            id="PLUTO"
+            ondrop="drop(event)"
+            ondragover="allowDrop(event)"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Favorite Things</title>
+    <script>
+      let favoriteThings = [];
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const addButton = document.getElementById("add");
+        const resetButton = document.getElementById("reset");
+        const input = document.getElementById("favorite-input");
+
+        addButton.addEventListener("click", function () {
+          const favoriteThing = input.value;
+          if (favoriteThing) {
+            favoriteThings.push(favoriteThing);
+            updateFavoriteThingsList();
+          }
+        });
+
+        function updateFavoriteThingsList() {
+          const list = document.getElementById("favorite-thing");
+          let html = "<ol>";
+          for (let i = 0; i < favoriteThings.length; i++) {
+            html +=
+              "<li>" +
+              favoriteThings[i] +
+              " <button class='delete' data='" +
+              i +
+              "'>Delete</button> <button class='edit' data='" +
+              i +
+              "'>Edit</button></li>";
+          }
+          list.innerHTML = html;
+
+          const editButtons = document.getElementsByClassName("edit");
+          for (let i = 0; i < editButtons.length; i++) {
+            editButtons[i].addEventListener("click", function () {
+              const index = this.getAttribute("data");
+              const favoriteThing = prompt("Edit here:", favoriteThings[index]);
+              if (favoriteThing !== null) {
+                favoriteThings[index] = favoriteThing;
+                updateFavoriteThingsList();
+              }
+            });
+          }
+        }
+
+        const deleteButtons = document.getElementsByClassName("delete");
+        for (let i = 0; i < deleteButtons.length; i++) {
+          deleteButtons[i].addEventListener("click", function () {
+            const index = this.getAttribute("data");
+            favoriteThings.splice(index, 1);
+            updateFavoriteThingsList();
+          });
+        }
+
+        resetButton.addEventListener("click", function () {
+          favoriteThings = [];
+          updateFavoriteThingsList();
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <h1>My Favorite Things</h1>
+    <textarea
+      id="favorite-input"
+      rows="3"
+      cols="50"
+      maxlength="2048"
+    ></textarea>
+    <button id="add">Add</button>
+    <button id="reset">Reset</button>
+    <div id="favorite-thing"></div>
+  </body>
+</html>
