@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Quiz</title>
+  </head>
+  <body>
+    <div id="quiz-container"></div>
+    <div id="result"></div>
+    <button id="submit">Submit</button>
+    <script>
+      document.addEventListener("DOMContentLoaded", async function () {
+        try {
+          const response = await fetch("quiz.json");
+          const quiz = await response.json();
+
+          const quizContainer = document.getElementById("quiz-container");
+          const resultContainer = document.getElementById("result");
+          const submitButton = document.getElementById("submit");
+          let currentQuestionIndex = 0;
+          let totalPoints = 0;
+
+          await displayQuizQuestion(currentQuestionIndex);
+
+          submitButton.addEventListener("click", async (event) => {
+            event.preventDefault();
+            const answer = document.getElementById(
+              `answer${currentQuestionIndex}`
+            ).value;
+            const currentQuestion = quiz[currentQuestionIndex];
+            const isCorrect =
+              (typeof currentQuestion.answer === "string" &&
+                answer.toLowerCase() ===
+                  currentQuestion.answer.toLowerCase()) ||
+              (typeof currentQuestion.answer === "number" &&
+                answer == currentQuestion.answer);
+            totalPoints += isCorrect ? currentQuestion.points : 0;
+            resultContainer.textContent = isCorrect
+              ? "Correct! You earned " + currentQuestion.points + " points."
+              : "Incorrect. You earned 0 points.";
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quiz.length) {
+              await displayQuizQuestion(currentQuestionIndex);
+            } else {
+              quizContainer.textContent = "Quiz complete!";
+              submitButton.disabled = true;
+              resultContainer.textContent =
+                "Your total score is " + totalPoints + " points.";
+            }
+          });
+
+          function displayQuizQuestion(index) {
+            return new Promise((resolve) => {
+              const question = quiz[index];
+              const questionElement = document.createElement("div");
+              questionElement.textContent = question.question;
+
+              const answerElement = document.createElement("input");
+              answerElement.type = "text";
+              answerElement.id = `answer${index}`;
+
+              const container = document.createElement("div");
+              container.appendChild(questionElement);
+              container.appendChild(answerElement);
+
+              quizContainer.appendChild(container);
+              resolve();
+            });
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    </script>
+  </body>
+</html>
