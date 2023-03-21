@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Fetch JSON Data and Show in Div</title>
+  </head>
+  <body>
+    <input type="number" id="number" max="3" min="1" />
+    <button onclick="getData()">Get Data</button>
+    <div id="json-data"></div>
+    <script>
+      function getData() {
+        const no = document.getElementById("number").value;
+        let url = `https://jsonplaceholder.typicode.com/posts/${no}`;
+
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            const jsonData = JSON.stringify(data);
+            document.getElementById("json-data").innerHTML = jsonData;
+          })
+          .catch((error) => console.error(error));
+      }
+    </script>
+  </body>
+</html>
