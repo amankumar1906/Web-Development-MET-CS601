@@ -1,0 +1,17 @@
+[
+  {
+    "question": "What is the largest planet in the solar system?",
+    "answer": "jupiter",
+    "points": 2
+  },
+  {
+    "question": "Which is the smallest planet in the solar system?",
+    "answer": "mercury",
+    "points": 2
+  },
+  {
+    "question": "At which position is Earth positioned from the sun?",
+    "answer": 3,
+    "points": 3
+  }
+]
