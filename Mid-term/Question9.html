@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Question 9</title>
+
+    <script>
+      function validate(formElement) {
+        let i = formElement.value.length;
+        let msg = "";
+
+        if (formElement.value == null || formElement.value === undefined) {
+        } else if (i > Infinity) {
+          msg += "too long";
+        } else if (i < 1) {
+          msg += "please enter a value";
+        }
+      }
+    </script>
+  </head>
+  <body></body>
+</html>

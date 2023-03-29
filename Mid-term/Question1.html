@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Question 1</title>
+  </head>
+  <body>
+    <p>Enter numbers below:</p>
+    <form>
+      <input type="number" id="input" name="input" />
+      <button type="button" onclick="addNumber()">Add Number</button>
+    </form>
+
+    <ul id="list1"></ul>
+
+    <script>
+      let numbers = new Set(); //Using sets to avoid duplication
+
+      function addNumber() {
+        let numberInput = document.getElementById("input");
+        let number = parseInt(numberInput.value);
+
+        if (!isNaN(number)) {
+          numbers.add(number);
+
+          let numberList = document.getElementById("list1");
+          numberList.innerHTML = "";
+
+          for (let n of numbers) {
+            let listElement = document.createElement("li");
+            listElement.textContent = n;
+            numberList.appendChild(listElement);
+          }
+
+          numberInput.value = "";
+        }
+      }
+    </script>
+  </body>
+</html>

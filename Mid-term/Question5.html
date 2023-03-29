@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Question 5</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+
+    <script>
+      let targetUrl = "https://jsonplaceholder.typicode.com/posts";
+      fetch(targetUrl)
+        .then((response) => response.json())
+        .then((json) => {
+          let msgDiv = document.getElementById("msgDiv");
+          msgDiv.innerHTML = json
+            .map((item) => `<div>${item.title}</div>`)
+            .join("");
+        });
+    </script>
+  </head>
+
+  <body>
+    <div>
+      <span id="msgDiv"> </span>
+    </div>
+  </body>
+</html>
