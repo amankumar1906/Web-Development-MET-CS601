@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>To-Do List</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>To-Do List</h1>
+    <form>
+      <label for="date">Date (DD-Month-YYYY):</label>
+      <input type="text" id="date" name="date" />
+      <input type="submit" value="Submit" />
+    </form>
+    <div id="to-do-list"></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var form = document.querySelector("form");
+        form.addEventListener("submit", function (event) {
+          event.preventDefault();
+          var dateInput = document.querySelector("#date");
+          var dateValue = dateInput.value;
+
+          fetch("data.json")
+            .then(function (response) {
+              return response.json();
+            })
+            .then(function (data) {
+              var toDoList = document.querySelector("#to-do-list");
+              toDoList.innerHTML = ""; // Clear previous results
+              var table = document.createElement("table");
+              var tableHeader = table.createTHead();
+              var headerRow = tableHeader.insertRow();
+              var dateHeader = document.createElement("th");
+              dateHeader.textContent = "Date";
+              headerRow.appendChild(dateHeader);
+              var descHeader = document.createElement("th");
+              descHeader.textContent = "Description";
+              headerRow.appendChild(descHeader);
+              var statusHeader = document.createElement("th");
+              statusHeader.textContent = "";
+              headerRow.appendChild(statusHeader);
+
+              var matchingItems = data.filter(function (item) {
+                return item.date === dateValue;
+              });
+
+              if (matchingItems.length === 0) {
+                var noItemsRow = table.insertRow();
+                var noItemsCell = noItemsRow.insertCell();
+                noItemsCell.colSpan = 3;
+                noItemsCell.textContent = "No items found for selected date.";
+              } else {
+                matchingItems[0].list.forEach(function (item) {
+                  var row = table.insertRow();
+                  var dateCell = row.insertCell();
+                  dateCell.textContent = matchingItems[0].date;
+                  var descCell = row.insertCell();
+                  var descText = document.createElement("span");
+                  descText.textContent = item.description;
+                  descCell.appendChild(descText);
+                  var bullet = document.createElement("span");
+                  bullet.textContent = "•";
+                  bullet.style.marginLeft = "5px";
+                  bullet.style.cursor = "pointer";
+                  if (item.status === "Done") {
+                    descText.style.textDecoration = "line-through";
+                    bullet.textContent = "✔️";
+                  }
+                  bullet.addEventListener("click", function () {
+                    if (item.status === "Not Done") {
+                      item.status = "Done";
+                      descText.style.textDecoration = "line-through";
+                      bullet.textContent = "✔️";
+                    } else {
+                      item.status = "Not Done";
+                      descText.style.textDecoration = "none";
+                      bullet.textContent = "•";
+                    }
+                  });
+                  descCell.appendChild(bullet);
+                });
+              }
+
+              toDoList.appendChild(table);
+            })
+            .catch(function (error) {
+              console.error("Error fetching data:", error);
+            });
+        });
+      });
+    </script>
+  </body>
+</html>
