@@ -9,6 +9,7 @@
         font-weight: bold;
         color: #555;
         padding-right: 5px;
+        border-radius: 10px;
       }
 
       table {
@@ -42,180 +43,169 @@
         display: none;
         margin-top: 20px;
       }
+
+      #add-task-data {
+        display: none;
+      }
     </style>
   </head>
   <body>
     <h1>To-Do List</h1>
     <form>
-      <label for="date">Date (DD-Month-YYYY):</label>
-      <input type="text" id="date" name="date" />
-      <input type="submit" value="Submit" />
+      <label for="date">Date:</label>
+      <input type="date" id="date-input" name="date-input">
+      </select>
     </form>
     <div id="to-do-list"></div>
     <button id="add-task">Add Task</button>
+    <button id="add-task-data"> Add Task</button>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var form = document.querySelector("form");
-        var addTaskBtn = document.querySelector("#add-task");
+document.addEventListener("DOMContentLoaded", function () {
+  var form = document.querySelector("form");
+  var addTaskBtn = document.querySelector("#add-task");
+  var addTaskData = document.querySelector("#add-task-data");
+  var dateValue;
+  var storedData = {};
 
-        form.addEventListener("submit", function (event) {
-          event.preventDefault();
-          var dateValue = document.querySelector("#date").value;
+  const myDateInput = document.querySelector("#date-input");
 
-          fetch("data.json")
-            .then(function (response) {
-              return response.json();
-            })
-            .then(function (data) {
-              var toDoList = document.querySelector("#to-do-list");
-              toDoList.innerHTML = ""; // Clear previous results
-              var table = document.createElement("table");
-              var tableHeader = table.createTHead();
-              var headerRow = tableHeader.insertRow();
-              var descHeader = document.createElement("th");
-              descHeader.textContent = "Description";
-              headerRow.appendChild(descHeader);
+  myDateInput.addEventListener("change", function (event) {
+    event.preventDefault();
+    dateValue = document.querySelector("#date-input").value;
 
-              var matchingItems = data.filter(function (item) {
-                return item.date === dateValue;
-              });
+    // Check if data is already stored for this date in local storage
+    var storedDataStr = localStorage.getItem(dateValue);
+    if (storedDataStr !== null) {
+      // Use stored data
+      storedData = JSON.parse(storedDataStr);
+      displayTasks(storedData.list);
+    } else {
+      // Fetch new data and store in local storage
+      fetch("data.json")
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          var matchingItems = data.filter(function (item) {
+            return item.date === dateValue;
+          });
 
-              if (matchingItems.length === 0) {
-                var noItemsRow = table.insertRow();
-                var noItemsCell = noItemsRow.insertCell();
-                noItemsCell.colSpan = 2;
-                noItemsCell.textContent = "No items found for selected date.";
-              } else {
-                matchingItems[0].list.forEach(function (item) {
-                  var row = table.insertRow();
-                  var descCell = row.insertCell();
-                  var bullet = document.createElement("span");
-                  bullet.classList.add("bullet");
-                  bullet.textContent = "•";
-                  if (item.status === "Done") {
-                    descCell.classList.add("done");
-                    bullet.textContent = "✔️";
-                  }
-                  bullet.addEventListener("click", function () {
-                    if (item.status === "Not Done") {
-                      item.status = "Done";
-                      descCell.classList.add("done");
-                      bullet.textContent = "✔️";
-                    } else {
-                      item.status = "Not Done";
-                      descCell.classList.remove("done");
-                      bullet.textContent = "•";
-                    }
-                    // Update the JSON file with the new status
-                    fetch("data.json", {
-                      method: "PUT",
-                      headers: {
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify(data),
-                    })
-                      .then(function () {
-                        console.log("Status updated successfully");
-                      })
-                      .catch(function (error) {
-                        console.error("Error updating status:", error);
-                      });
-                  });
-                  descCell.appendChild(bullet);
-                  descCell.insertAdjacentText("beforeend", item.description);
-                });
-              }
-              toDoList.appendChild(table);
-              addTaskBtn.style.display = "block";
-            })
-            .catch(function (error) {
-              console.error("Error fetching data:", error);
-            });
+          if (matchingItems.length === 0) {
+            // No items found for selected date
+            displayNoTasksMessage();
+          } else {
+            displayTasks(matchingItems[0].list);
+            storedData.list = matchingItems[0].list;
+            localStorage.setItem(dateValue, JSON.stringify(storedData));
+          }
+        })
+        .catch(function (error) {
+          console.error("Error fetching data:", error);
         });
+    }
+  });
+
+  function displayNoTasksMessage() {
+    var toDoList = document.querySelector("#to-do-list");
+    toDoList.innerHTML = "";
+
+    // create a new table
+    var table = document.createElement("table");
+    var tableHeader = table.createTHead();
+    var headerRow = tableHeader.insertRow();
+    var descHeader = document.createElement("th");
+    descHeader.textContent = "Description";
+    headerRow.appendChild(descHeader);
+
+    toDoList.appendChild(table);
+
+    // display the add task button
+    addTaskData.style.display = "block";
+
+    addTaskData.addEventListener("click", function () {
+      var description = prompt("Enter new task description:");
+      if (description) {
+        var newTask = { description: description, status: "Not Done" };
+        if (!storedData.list) {
+        storedData.list = [];
+      }
+        // add the new task to the stored data list
+        storedData.list.push(newTask);
+        localStorage.setItem(dateValue, JSON.stringify(storedData));
+        displayTasks(storedData.list);
+      }
+    });
+
+    // display the description
+    var noItemsMsg = document.createElement("p");
+    noItemsMsg.textContent =
+      "No items found for selected date. Add a new task:";
+    table.insertAdjacentElement("afterend", noItemsMsg);
+  }
+
+  function displayTasks(tasks) {
+  var toDoList = document.querySelector("#to-do-list");
+  toDoList.innerHTML = "";
+  var table = document.createElement("table");
+  var tableHeader = table.createTHead();
+  var headerRow = tableHeader.insertRow();
+  var descHeader = document.createElement("th");
+  descHeader.textContent = "Description";
+  headerRow.appendChild(descHeader);
+
+  tasks.forEach(function (item) {
+    var row = table.insertRow();
+    var descCell = row.insertCell();
+    var bullet = document.createElement("span");
+    bullet.classList.add("bullet");
+    bullet.textContent = "•";
+    if (item.status === "Done") {
+      descCell.classList.add("done");
+      bullet.textContent = "✔️";
+    }
+    bullet.addEventListener("click", function () {
+      if (item.status === "Not Done") {
+        item.status = "Done";
+        descCell.classList.add("done");
+        bullet.textContent = "✔️";
+      } else {
+        item.status = "Not Done";
+        descCell.classList.remove("done");
+        bullet.textContent = "•";
+      }
+      // Update local storage with the new status
+      storedData.list.forEach(function (storedItem) {
+        if (storedItem.description === item.description) {
+          storedItem.status = item.status;
+        }
+      });
+      localStorage.setItem(dateValue, JSON.stringify(storedData));
+    });
+
+    descCell.appendChild(bullet);
+    descCell.insertAdjacentText("beforeend", item.description);
+    row.appendChild(descCell);
+  });
+
+  toDoList.appendChild(table);
+
+  if (addTaskData.style.display === "block") {
+    addTaskData.style.display = "none";
+  }
+
+  addTaskBtn.style.display='block';
+}
+
 
         addTaskBtn.addEventListener("click", function () {
-          var table = document.querySelector("table");
-          var newRow = table.insertRow();
-          var newCell = newRow.insertCell();
-          var newInput = document.createElement("input");
-          newInput.type = "text";
-          newInput.name = "new-task";
-          newInput.placeholder = "Add a new task...";
-          newInput.addEventListener("keyup", function (event) {
-            if (event.key === "Enter") {
-              event.preventDefault();
-              var description = newInput.value.trim();
-              var item = { description: description, status: "Not Done" };
-              var data = JSON.parse(sessionStorage.getItem("data")) || [];
-              var today = new Date().toISOString().slice(0, 10);
-              if (
-                !data[
-                  data.find(function (entry) {
-                    return entry.date === today;
-                  })
-                ]
-              ) {
-                data.push({ date: today, list: [] });
-              }
-              data
-                .find(function (entry) {
-                  return entry.date === today;
-                })
-                .list.push(item);
-              // Update the JSON file with the new task
-              fetch("data.json", {
-                method: "PUT",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(data),
-              })
-                .then(function () {
-                  console.log("Task added successfully");
-                })
-                .catch(function (error) {
-                  console.error("Error adding task:", error);
-                });
-
-              // Add the new task to the table
-              var row = table.insertRow();
-              var descCell = row.insertCell();
-              var bullet = document.createElement("span");
-              bullet.classList.add("bullet");
-              bullet.textContent = "•";
-              bullet.addEventListener("click", function () {
-                if (item.status === "Not Done") {
-                  item.status = "Done";
-                  descCell.classList.add("done");
-                  bullet.textContent = "✔️";
-                } else {
-                  item.status = "Not Done";
-                  descCell.classList.remove("done");
-                  bullet.textContent = "•";
-                }
-                // Update the JSON file with the new status
-                fetch("data.json", {
-                  method: "PUT",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify(data),
-                })
-                  .then(function () {
-                    console.log("Status updated successfully");
-                  })
-                  .catch(function (error) {
-                    console.error("Error updating status:", error);
-                  });
-              });
-              descCell.appendChild(bullet);
-              descCell.insertAdjacentText("beforeend", description);
-              newInput.value = "";
-            }
-          });
-          newCell.appendChild(newInput);
-          newInput.focus();
-          addTaskBtn.style.display = "none";
+          var description = prompt("Enter new task description:");
+          if (description) {
+            var newTask = { description: description, status: "Not Done" };
+            console.log('last')
+            storedData.list.push(newTask);
+            localStorage.setItem(dateValue, JSON.stringify(storedData));
+            displayTasks(storedData.list);
+          }
         });
       });
     </script>
