@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Budget Tracker</title>
+    <style>
+      #add-expenditure {
+        display: none;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #4caf50;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Budget Tracker</h1>
+
+    <label for="date">Enter Date (mm/yyyy):</label>
+    <input type="text" id="date" />
+    <button id="search">Search</button>
+
+    <div id="results"></div>
+
+    <button id="add-expenditure">Add Expenditure</button>
+
+    <script>
+      const searchButton = document.getElementById("search");
+      const addExpenditureButton = document.getElementById("add-expenditure");
+      const resultsDiv = document.getElementById("results");
+
+      searchButton.addEventListener("click", () => {
+        const dateInput = document.getElementById("date").value.trim();
+
+        // Fetch data from data.json
+        fetch("data.json")
+          .then((response) => response.json())
+          .then((data) => {
+            // Find the budget data for the given date
+            const budgetData = data.find((d) => d.date === dateInput);
+
+            if (budgetData) {
+              // Show the budget for the given date
+              const budgetText = `Budget for ${
+                budgetData.date
+              }: $${budgetData.budget.toFixed(2)}`;
+              resultsDiv.innerHTML = `<p>${budgetText}</p>`;
+
+              // Calculate the total expenditure for the given date
+              let totalExpenditure = budgetData.expenditures.reduce(
+                (total, expenditure) => {
+                  return total + expenditure.cost;
+                },
+                0
+              );
+
+              // Add any new expenditures from session storage
+              const expenditures =
+                JSON.parse(sessionStorage.getItem("expenditures")) || [];
+              expenditures.forEach((expenditure) => {
+                if (expenditure.date === dateInput) {
+                  totalExpenditure += expenditure.cost;
+                }
+              });
+
+              // Show the total expenditure for the given date
+              const expenditureText = `Total Expenditure for ${
+                budgetData.date
+              }: $${totalExpenditure.toFixed(2)}`;
+              resultsDiv.innerHTML += `<p>${expenditureText}</p>`;
+
+              // Show the 'add expenditure' button
+              addExpenditureButton.style.display = "inline-block";
+
+              // Show the expenditures in a table
+              let tableHtml = `
+                <table>
+                  <tr>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Cost</th>
+                  </tr>
+              `;
+              budgetData.expenditures.forEach((expenditure) => {
+                if (expenditure.date === dateInput) {
+                  tableHtml += `
+                    <tr>
+                      <td>${expenditure.date}</td>
+                      <td>${expenditure.description}</td>
+                      <td>$${expenditure.cost.toFixed(2)}</td>
+                    </tr>
+                  `;
+                }
+              });
+              expenditures.forEach((expenditure) => {
+                if (expenditure.date === dateInput) {
+                  tableHtml += `
+                    <tr>
+                      <td>${expenditure.date}</td>
+                      <td>${expenditure.description}
+                    </td>
+<td>$${expenditure.cost.toFixed(2)}</td>
+</tr>
+`;
+                }
+              });
+              tableHtml += "</table>";
+              resultsDiv.innerHTML += tableHtml;
+            } else {
+              // Display error message if budget data for the given date is not found
+              resultsDiv.innerHTML =
+                "<p>Error: Budget data not found for the given date.</p>";
+              addExpenditureButton.style.display = "none";
+            }
+          })
+          .catch((error) => {
+            // Display error message if there is an error fetching data from data.json
+            console.error(error);
+            resultsDiv.innerHTML = "<p>Error: Failed to fetch budget data.</p>";
+            addExpenditureButton.style.display = "none";
+          });
+      });
+      addExpenditureButton.addEventListener("click", () => {
+        // Hide the 'add expenditure' button
+        addExpenditureButton.style.display = "none";
+
+        // Show the add expenditure form
+        const formHtml = `
+      <form id="expenditure-form">
+        <label for="expenditure-date">Date:</label>
+        <input type="text" id="expenditure-date" value="${document
+          .getElementById("date")
+          .value.trim()}" disabled><br><br>
+        <label for="expenditure-description">Description:</label>
+        <input type="text" id="expenditure-description" required><br><br>
+        <label for="expenditure-cost">Cost:</label>
+        <input type="number" step="0.01" id="expenditure-cost" required><br><br>
+        <button type="submit">Submit</button>
+        <button type="button" id="cancel-expenditure">Cancel</button>
+      </form>
+    `;
+        resultsDiv.innerHTML += formHtml;
+
+        const expenditureForm = document.getElementById("expenditure-form");
+        expenditureForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+
+          const expenditureDate = document
+            .getElementById("expenditure-date")
+            .value.trim();
+          const expenditureDescription = document
+            .getElementById("expenditure-description")
+            .value.trim();
+          const expenditureCost = Number(
+            document.getElementById("expenditure-cost").value.trim()
+          );
+
+          // Get the current list of expenditures from session storage
+          const expenditures =
+            JSON.parse(sessionStorage.getItem("expenditures")) || [];
+
+          // Add the new expenditure to the list
+          expenditures.push({
+            date: expenditureDate,
+            description: expenditureDescription,
+            cost: expenditureCost,
+          });
+
+          // Save the updated list of expenditures to session storage
+          sessionStorage.setItem("expenditures", JSON.stringify(expenditures));
+
+          // Re-run the search for the current date to update the table with the new expenditure
+          searchButton.click();
+        });
+
+        const cancelExpenditureButton =
+          document.getElementById("cancel-expenditure");
+        cancelExpenditureButton.addEventListener("click", () => {
+          // Remove the add expenditure form
+          resultsDiv.removeChild(expenditureForm);
+
+          // Show the 'add expenditure' button
+          addExpenditureButton.style.display = "inline-block";
+        });
+      });
+    </script>
+  </body>
+</html>
