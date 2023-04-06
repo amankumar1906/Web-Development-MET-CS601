@@ -96,10 +96,13 @@
                   </tr>
               `;
               budgetData.expenditures.forEach((expenditure) => {
-                if (expenditure.date === dateInput) {
+                console.log(expenditure.date === dateInput);
+                console.log(expenditure.date);
+                console.log(dateInput);
+                if (budgetData.date === dateInput) {
                   tableHtml += `
                     <tr>
-                      <td>${expenditure.date}</td>
+                      <td>${budgetData.date}</td>
                       <td>${expenditure.description}</td>
                       <td>$${expenditure.cost.toFixed(2)}</td>
                     </tr>
@@ -113,8 +116,8 @@
                       <td>${expenditure.date}</td>
                       <td>${expenditure.description}
                     </td>
-<td>$${expenditure.cost.toFixed(2)}</td>
-</tr>
+                    <td>$${expenditure.cost.toFixed(2)}</td>
+                    </tr>
 `;
                 }
               });
