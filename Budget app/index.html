@@ -4,12 +4,13 @@
     <meta charset="utf-8" />
     <title>Budget App</title>
     <style>
-      .container {
+      #container {
         display: flex;
         justify-content: center;
-        align-items: center;
-        height: 100vh;
         width: 50%;
+        margin: auto;
+        border: 2px solid;
+        padding: 10px;
       }
 
       body {
@@ -24,17 +25,25 @@
       }
 
       button {
+        box-sizing: border-box;
         background-color: blue;
+        margin-left: 10px;
         color: white;
-        padding: 10px 20px;
+        padding: 10px 10px;
         border: none;
         border-radius: 5px;
-        font-size: 16px;
+        font-size: 12px;
       }
 
       table {
-        width: 100%;
         border-collapse: collapse;
+        margin: auto;
+        margin-top: 30px;
+        border: solid 1px;
+        width: 50%;
+        max-width: 50%;
+        margin-bottom: 1rem;
+        background-color: transparent;
       }
 
       td,
@@ -44,7 +53,7 @@
       }
 
       th {
-        background-color: #f2f2f2;
+        background-color: lightblue;
         font-weight: bold;
       }
 
@@ -57,14 +66,24 @@
     <div id="container">
       <label for="date-input">Enter month and year (mm/yyyy):</label>
       <input type="text" id="date-input" name="date" />
-      <button onclick="fetchData()">Fetch Data</button>
+      <button onclick="fetchData()">Search</button>
+    </div>
+    <div id="sub-container">
       <table id="budget-table" style="display: none">
         <thead>
           <tr>
             <th>Description</th>
             <th>Cost</th>
             <th></th>
-            <th></th>
+            <th>
+              <button
+                id="add-expense-button"
+                style="display: none"
+                onclick="addExpense()"
+              >
+                Add Expense
+              </button>
+            </th>
           </tr>
         </thead>
         <tbody id="budget-table-body"></tbody>
@@ -89,13 +108,6 @@
           </tr>
         </tfoot>
       </table>
-      <button
-        id="add-expense-button"
-        style="display: none"
-        onclick="addExpense()"
-      >
-        Add Expense
-      </button>
     </div>
     <script>
       let budgetData = null;
@@ -106,7 +118,7 @@
         if (
           !regex.test(dateInput) ||
           Number(dateInput.split("/")[0]) < 1 ||
-          Number(dateInput.split("/")[0]) === 0
+          Number(dateInput.split("/")[0]) == 0
         ) {
           alert("Invalid date! Enter the date in mm/yyyy format");
           return;
@@ -114,6 +126,17 @@
         const data = {
           date: dateInput,
         };
+
+        const storedData = localStorage.getItem(dateInput);
+        if (storedData) {
+          budgetData = JSON.parse(storedData);
+          showTable(budgetData);
+          const addExpenseButton =
+            document.getElementById("add-expense-button");
+          addExpenseButton.style.display = "";
+          return;
+        }
+
         fetch("data.json")
           .then((response) => response.json())
           .then((jsonData) => {
@@ -228,15 +251,6 @@
         budgetData.expenditures.splice(index, 1);
         localStorage.setItem(budgetData.date, JSON.stringify(budgetData));
         showTable(budgetData);
-      }
-
-      // Load data from localStorage if it exists
-      const savedData = localStorage.getItem(dateInput);
-      if (savedData) {
-        budgetData = JSON.parse(savedData);
-        showTable(budgetData);
-        const addExpenseButton = document.getElementById("add-expense-button");
-        addExpenseButton.style.display = "";
       }
     </script>
   </body>
