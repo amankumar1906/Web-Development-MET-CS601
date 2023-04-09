@@ -2,204 +2,246 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Budget Tracker</title>
+    <title>Budget App</title>
     <style>
-      #add-expenditure {
-        display: none;
+      .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 50%;
+      }
+
+      body {
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      input[type="text"] {
+        display: block;
+        width: 15%;
+        margin-bottom: 10px;
+      }
+
+      button {
+        background-color: blue;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
       }
 
       table {
-        border-collapse: collapse;
         width: 100%;
-        margin-top: 20px;
+        border-collapse: collapse;
       }
 
-      th,
-      td {
-        padding: 8px;
+      td,
+      th {
+        padding: 10px;
         text-align: left;
-        border-bottom: 1px solid #ddd;
       }
 
       th {
-        background-color: #4caf50;
-        color: white;
+        background-color: #f2f2f2;
+        font-weight: bold;
+      }
+
+      tfoot td {
+        font-weight: bold;
       }
     </style>
   </head>
   <body>
-    <h1>Budget Tracker</h1>
-
-    <label for="date">Enter Date (mm/yyyy):</label>
-    <input type="text" id="date" />
-    <button id="search">Search</button>
-
-    <div id="results"></div>
-
-    <button id="add-expenditure">Add Expenditure</button>
-
+    <div id="container">
+      <label for="date-input">Enter month and year (mm/yyyy):</label>
+      <input type="text" id="date-input" name="date" />
+      <button onclick="fetchData()">Fetch Data</button>
+      <table id="budget-table" style="display: none">
+        <thead>
+          <tr>
+            <th>Description</th>
+            <th>Cost</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="budget-table-body"></tbody>
+        <tfoot>
+          <tr>
+            <td><b>Total Expenditure:</b></td>
+            <td id="total-expenditure"></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>Total Budget:</b></td>
+            <td id="total-budget"></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>Total Savings:</b></td>
+            <td id="total-savings"></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+      <button
+        id="add-expense-button"
+        style="display: none"
+        onclick="addExpense()"
+      >
+        Add Expense
+      </button>
+    </div>
     <script>
-      const searchButton = document.getElementById("search");
-      const addExpenditureButton = document.getElementById("add-expenditure");
-      const resultsDiv = document.getElementById("results");
+      let budgetData = null;
 
-      searchButton.addEventListener("click", () => {
-        const dateInput = document.getElementById("date").value.trim();
-
-        // Fetch data from data.json
+      function fetchData() {
+        const dateInput = document.getElementById("date-input").value;
+        const data = {
+          date: dateInput,
+        };
         fetch("data.json")
           .then((response) => response.json())
-          .then((data) => {
-            // Find the budget data for the given date
-            const budgetData = data.find((d) => d.date === dateInput);
-
-            if (budgetData) {
-              // Show the budget for the given date
-              const budgetText = `Budget for ${
-                budgetData.date
-              }: $${budgetData.budget.toFixed(2)}`;
-              resultsDiv.innerHTML = `<p>${budgetText}</p>`;
-
-              // Calculate the total expenditure for the given date
-              let totalExpenditure = budgetData.expenditures.reduce(
-                (total, expenditure) => {
-                  return total + expenditure.cost;
-                },
-                0
-              );
-
-              // Add any new expenditures from session storage
-              const expenditures =
-                JSON.parse(sessionStorage.getItem("expenditures")) || [];
-              expenditures.forEach((expenditure) => {
-                if (expenditure.date === dateInput) {
-                  totalExpenditure += expenditure.cost;
-                }
-              });
-
-              // Show the total expenditure for the given date
-              const expenditureText = `Total Expenditure for ${
-                budgetData.date
-              }: $${totalExpenditure.toFixed(2)}`;
-              resultsDiv.innerHTML += `<p>${expenditureText}</p>`;
-
-              // Show the 'add expenditure' button
-              addExpenditureButton.style.display = "inline-block";
-
-              // Show the expenditures in a table
-              let tableHtml = `
-                <table>
-                  <tr>
-                    <th>Date</th>
-                    <th>Description</th>
-                    <th>Cost</th>
-                  </tr>
-              `;
-              budgetData.expenditures.forEach((expenditure) => {
-                console.log(expenditure.date === dateInput);
-                console.log(expenditure.date);
-                console.log(dateInput);
-                if (budgetData.date === dateInput) {
-                  tableHtml += `
-                    <tr>
-                      <td>${budgetData.date}</td>
-                      <td>${expenditure.description}</td>
-                      <td>$${expenditure.cost.toFixed(2)}</td>
-                    </tr>
-                  `;
-                }
-              });
-              expenditures.forEach((expenditure) => {
-                if (expenditure.date === dateInput) {
-                  tableHtml += `
-                    <tr>
-                      <td>${expenditure.date}</td>
-                      <td>${expenditure.description}
-                    </td>
-                    <td>$${expenditure.cost.toFixed(2)}</td>
-                    </tr>
-`;
-                }
-              });
-              tableHtml += "</table>";
-              resultsDiv.innerHTML += tableHtml;
+          .then((jsonData) => {
+            const foundData = jsonData.find((d) => d.date === data.date);
+            if (foundData) {
+              budgetData = foundData;
+              localStorage.setItem("budgetData", JSON.stringify(foundData));
+              showTable(budgetData);
+              const addExpenseButton =
+                document.getElementById("add-expense-button");
+              addExpenseButton.style.display = "";
             } else {
-              // Display error message if budget data for the given date is not found
-              resultsDiv.innerHTML =
-                "<p>Error: Budget data not found for the given date.</p>";
-              addExpenditureButton.style.display = "none";
+              const newBudget = prompt(
+                "No budget found for the given date. Please enter a new budget:"
+              );
+              if (newBudget) {
+                budgetData = {
+                  date: data.date,
+                  budget: parseFloat(newBudget),
+                  expenditures: [],
+                };
+                localStorage.setItem("budgetData", JSON.stringify(budgetData));
+                showTable(budgetData);
+                const addExpenseButton =
+                  document.getElementById("add-expense-button");
+                addExpenseButton.style.display = "";
+              }
             }
-          })
-          .catch((error) => {
-            // Display error message if there is an error fetching data from data.json
-            console.error(error);
-            resultsDiv.innerHTML = "<p>Error: Failed to fetch budget data.</p>";
-            addExpenditureButton.style.display = "none";
           });
-      });
-      addExpenditureButton.addEventListener("click", () => {
-        // Hide the 'add expenditure' button
-        addExpenditureButton.style.display = "none";
+      }
 
-        // Show the add expenditure form
-        const formHtml = `
-      <form id="expenditure-form">
-        <label for="expenditure-date">Date:</label>
-        <input type="text" id="expenditure-date" value="${document
-          .getElementById("date")
-          .value.trim()}" disabled><br><br>
-        <label for="expenditure-description">Description:</label>
-        <input type="text" id="expenditure-description" required><br><br>
-        <label for="expenditure-cost">Cost:</label>
-        <input type="number" step="0.01" id="expenditure-cost" required><br><br>
-        <button type="submit">Submit</button>
-        <button type="button" id="cancel-expenditure">Cancel</button>
-      </form>
-    `;
-        resultsDiv.innerHTML += formHtml;
-
-        const expenditureForm = document.getElementById("expenditure-form");
-        expenditureForm.addEventListener("submit", (event) => {
-          event.preventDefault();
-
-          const expenditureDate = document
-            .getElementById("expenditure-date")
-            .value.trim();
-          const expenditureDescription = document
-            .getElementById("expenditure-description")
-            .value.trim();
-          const expenditureCost = Number(
-            document.getElementById("expenditure-cost").value.trim()
-          );
-
-          // Get the current list of expenditures from session storage
-          const expenditures =
-            JSON.parse(sessionStorage.getItem("expenditures")) || [];
-
-          // Add the new expenditure to the list
-          expenditures.push({
-            date: expenditureDate,
-            description: expenditureDescription,
-            cost: expenditureCost,
-          });
-
-          // Save the updated list of expenditures to session storage
-          sessionStorage.setItem("expenditures", JSON.stringify(expenditures));
-
-          // Re-run the search for the current date to update the table with the new expenditure
-          searchButton.click();
+      function showTable(data) {
+        const tableBody = document.getElementById("budget-table-body");
+        tableBody.innerHTML = "";
+        let totalExpenditure = 0;
+        data.expenditures.forEach((expense, index) => {
+          const row = document.createElement("tr");
+          const descriptionCell = document.createElement("td");
+          descriptionCell.innerText = expense.description;
+          row.appendChild(descriptionCell);
+          const costCell = document.createElement("td");
+          costCell.innerText = expense.cost;
+          row.appendChild(costCell);
+          totalExpenditure += expense.cost;
+          const editCell = document.createElement("td");
+          const editButton = document.createElement("button");
+          editButton.innerText = "Edit";
+          editButton.addEventListener("click", () => editExpense(index));
+          editCell.appendChild(editButton);
+          row.appendChild(editCell);
+          const deleteCell = document.createElement("td");
+          const deleteButton = document.createElement("button");
+          deleteButton.innerText = "Delete";
+          deleteButton.addEventListener("click", () => deleteExpense(index));
+          deleteCell.appendChild(deleteButton);
+          row.appendChild(deleteCell);
+          tableBody.appendChild(row);
         });
+        const table = document.getElementById("budget-table");
+        table.style.display = "";
+        const totalExpenditureCell =
+          document.getElementById("total-expenditure");
+        totalExpenditureCell.innerText = totalExpenditure;
+        const totalBudgetCell = document.getElementById("total-budget");
+        totalBudgetCell.innerText = data.budget;
+        const totalSavingsCell = document.getElementById("total-savings");
+        const totalSavings = data.budget - totalExpenditure;
+        totalSavingsCell.innerText = totalSavings;
+      }
+      function addExpense() {
+        const description = prompt("Enter description:");
+        if (description === null || description === "") {
+          return;
+        }
+        const costString = prompt("Enter cost:");
+        if (costString === null || costString === "") {
+          return;
+        }
+        const cost = parseFloat(costString);
+        if (isNaN(cost)) {
+          alert("Invalid cost value. Please enter a number.");
+          return;
+        }
+        const newExpense = {
+          description: description,
+          cost: cost,
+        };
+        budgetData.expenditures.push(newExpense);
+        localStorage.setItem("budgetData", JSON.stringify(budgetData));
+        showTable(budgetData);
+      }
+      function editExpense(index) {
+        const expense = budgetData.expenditures[index];
+        const newDescription = prompt(
+          `Enter new description for ${expense.description}:`,
+          expense.description
+        );
+        if (newDescription === null || newDescription === "") {
+          return;
+        }
+        const newCostString = prompt(
+          `Enter new cost for ${expense.description}:`,
+          expense.cost
+        );
+        if (newCostString === null || newCostString === "") {
+          return;
+        }
+        const newCost = parseFloat(newCostString);
+        if (isNaN(newCost)) {
+          alert("Invalid cost value. Please enter a number.");
+          return;
+        }
+        expense.description = newDescription;
+        expense.cost = newCost;
+        localStorage.setItem("budgetData", JSON.stringify(budgetData));
+        showTable(budgetData);
+      }
 
-        const cancelExpenditureButton =
-          document.getElementById("cancel-expenditure");
-        cancelExpenditureButton.addEventListener("click", () => {
-          // Remove the add expenditure form
-          resultsDiv.removeChild(expenditureForm);
+      function deleteExpense(index) {
+        const confirmDelete = confirm(
+          "Are you sure you want to delete this expense?"
+        );
+        if (confirmDelete) {
+          budgetData.expenditures.splice(index, 1);
+          localStorage.setItem("budgetData", JSON.stringify(budgetData));
+          showTable(budgetData);
+        }
+      }
 
-          // Show the 'add expenditure' button
-          addExpenditureButton.style.display = "inline-block";
-        });
-      });
+      // Load data from localStorage if it exists
+      const savedData = localStorage.getItem("budgetData");
+      if (savedData) {
+        budgetData = JSON.parse(savedData);
+        showTable(budgetData);
+        const addExpenseButton = document.getElementById("add-expense-button");
+        addExpenseButton.style.display = "";
+      }
     </script>
   </body>
 </html>
