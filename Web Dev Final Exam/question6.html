@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Question 6</title>
+    <script>
+      class Polygon {
+        constructor(name, height, width) {
+          this.name = name;
+          this.height = height;
+          this.width = width;
+        }
+
+        toString() {
+          return `Hi. I am an instance of ${this.name}. My height is ${this.height} and width is ${this.width}.`;
+        }
+
+        getHistory() {
+          return "Polygon is derived from Greek polus (many) and gonia (angle).";
+        }
+
+        getArea() {
+          return 0.0;
+        }
+      }
+
+      class Square extends Polygon {
+        constructor(height, width) {
+          super("Square", height, width);
+        }
+
+        getArea() {
+          return this.height * this.width;
+        }
+
+        getHistory() {
+          return "Square means in latin: to set in order, complete.";
+        }
+      }
+
+    </script>
+  </head>
+  <body></body>
+</html>

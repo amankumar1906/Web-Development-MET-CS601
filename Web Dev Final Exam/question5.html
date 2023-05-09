@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Question 5</title>
+
+    <script>
+      const map = new Map([
+        ["animal", "otter"],
+        ["shape", "triangle"],
+        ["city", "New York"],
+        ["country", "Bulgaria"],
+      ]);
+
+      if (map.get("shark") !== undefined) {
+        console.log('Key "shark" exists in the map');
+      } else {
+        console.log('Key "shark" does not exist in the map');
+      }
+
+      // By converting it to object and then checking for the key
+
+      //   const obj = Object.fromEntries(map.entries());
+
+      //   if ("shark" in obj) {
+      //     console.log('Key "shark" exists in the object');
+      //   } else {
+      //     console.log('Key "shark" does not exist in the object');
+      //   }
+    </script>
+  </head>
+  <body></body>
+</html>
