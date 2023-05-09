@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Math Formulas Test Page</title>
+    <style>
+      label {
+        display: inline-block;
+        width: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Question 4</h1>
+    <form>
+      <fieldset>
+        <legend>Area of Parallelogram</legend>
+        <label for="base">Base:</label>
+        <input type="number" id="base" name="base" /><br />
+        <label for="height">Height:</label>
+        <input type="number" id="height" name="height" /><br />
+        <span id="parallelogramArea"></span><br />
+        <button type="button" id="calculateParallelogram">Calculate</button>
+      </fieldset>
+      <fieldset>
+        <legend>Area of Trapezoid</legend>
+        <label for="a">Side A:</label>
+        <input type="number" id="a" name="a" /><br />
+        <label for="b">Side B:</label>
+        <input type="number" id="b" name="b" /><br />
+        <label for="trapezoidHeight">Height:</label>
+        <input
+          type="number"
+          id="trapezoidHeight"
+          name="trapezoidHeight"
+        /><br />
+        <span id="trapezoidArea"></span><br />
+        <button type="button" id="calculateTrapezoid">Calculate</button>
+      </fieldset>
+      <fieldset>
+        <legend>Area of Right Cylinder</legend>
+        <label for="cylinderRadius">Radius:</label>
+        <input type="number" id="cylinderRadius" name="cylinderRadius" /><br />
+        <label for="cylinderHeight">Height:</label>
+        <input type="number" id="cylinderHeight" name="cylinderHeight" /><br />
+        <span id="cylinderArea"></span><br />
+        <button type="button" id="calculateCylinder">Calculate</button>
+      </fieldset>
+    </form>
+
+    <script type="module">
+      import {
+        areaParallelogram,
+        areaTrapezoid,
+        areaCylinder,
+      } from "./math/formulas.js";
+
+      const calculateParallelogramButton = document.getElementById(
+        "calculateParallelogram"
+      );
+      calculateParallelogramButton.addEventListener("click", () => {
+        const base = Number(document.getElementById("base").value);
+        const height = Number(document.getElementById("height").value);
+        document.getElementById(
+          "parallelogramArea"
+        ).innerHTML = `Area: ${areaParallelogram(base, height)}`;
+      });
+      const calculateTrapezoidButton =
+        document.getElementById("calculateTrapezoid");
+      calculateTrapezoidButton.addEventListener("click", () => {
+        const a = Number(document.getElementById("a").value);
+        const b = Number(document.getElementById("b").value);
+        const height = Number(document.getElementById("trapezoidHeight").value);
+        document.getElementById(
+          "trapezoidArea"
+        ).innerHTML = `Area: ${areaTrapezoid(a, b, height)}`;
+      });
+      const calculateCylinderButton =
+        document.getElementById("calculateCylinder");
+      calculateCylinderButton.addEventListener("click", () => {
+        const radius = Number(document.getElementById("cylinderRadius").value);
+        const height = Number(document.getElementById("cylinderHeight").value);
+        document.getElementById(
+          "cylinderArea"
+        ).innerHTML = `Area: ${areaCylinder(radius, height)}`;
+      });
+    </script>
+  </body>
+</html>

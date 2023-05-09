@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Question 2</title>
+  </head>
+  <body>
+    <ul id="breed"></ul>
+
+    <script>
+      const breedsList = document.querySelector("#breed");
+
+      fetch("https://dog.ceo/api/breeds/list/all")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          const breeds = Object.keys(data.message);
+
+          const uniqueBreeds = [...new Set(breeds)];
+          uniqueBreeds.forEach((breed) => {
+            const li = document.createElement("li");
+            li.textContent = breed;
+            breedsList.appendChild(li);
+          });
+        })
+        .catch((error) => console.error(error));
+    </script>
+  </body>
+</html>

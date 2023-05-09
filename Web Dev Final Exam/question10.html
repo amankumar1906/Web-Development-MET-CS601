@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question 10</title>
+    <script>
+        //Corrected code
+        const data = {
+    name: 'Andrew Sheehan',
+    "course's": ['CS 601', 'CS 602', 701, 201],
+    minimum_grade: 1.0,
+    maximum_grade: 100.00,
+    favorite_cat_names: `<cats><cat value='alfred'>AI</cat><cat value='franky the warrior'>Franky</cat></cats>`
+  };
+    </script>
+</head>
+<body>
+Incorrect code: 
+const data= [ "name'= Andrew Sheehan;
+'course's'=CS 601, CS602, 701, 201
+'minimum grade > 1.0F;
+'maximum grade' ?= 100.00d,
+favorite cat names = <cats><cat value='alfred'>AI </cat> <cat value=franky the warrior'> Franky </cat></cats>]
+
+
+<br> Errors: 
+  <li> Curly braces need to be used instead of square braces </li>
+  <li> The separator that needs to be used is ':' and not '='</li>
+  <li> Syntax error for course's. " " should be used if the word contains an apostrophe </li>
+  <li> Since courses has multiple items, they need to be stored in an array </li>
+  <li> The minimum_grade property should be a number and '>' is irrelevant </li>
+  <li> The maximum_grade property should also be a number and '?=' is invalid syntax</li>
+  <li> favorite cat names cannot contain spaces and a string that should be enclosed in backticks.</li>
+  
+</body>
+</html>
